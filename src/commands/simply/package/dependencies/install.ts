@@ -21,25 +21,26 @@ import {
 } from '@salesforce/packaging';
 import { Optional } from '@salesforce/ts-types';
 import {
-  isPackageId,
-  isPackageVersionId,
-  isPackageVersionInstalled,
+  isPackage2Id,
+  isSubscriberPackageVersionId,
+  isSubscriberPackageVersionInstalled,
   reducePackageInstallRequestErrors,
-  resolvePackageVersionId,
+  resolveSubscriberPackageVersionId,
 } from '../../../../common/packageUtils.js';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@simplysf/simply-package', 'simply.package.dependencies.install');
+const messages = Messages.loadMessages('sf-chipps-package', 'chipps.package.dependencies.install');
 
 export type PackageToInstall = {
-  Status: string;
-  PackageName: string;
-  SubscriberPackageVersionId: string;
+  packageName: string;
+  skip: boolean;
+  status: string;
+  subscriberPackageVersionId: string;
 };
 
-const installType = { All: 'all', Delta: 'delta' };
+const installType = { All: 'all', Delta: 'delta', Upgrade: 'upgrade' };
 const securityType = { AllUsers: 'full', AdminsOnly: 'none' };
 const upgradeType = { Delete: 'delete-only', DeprecateOnly: 'deprecate-only', Mixed: 'mixed-mode' };
 
@@ -66,13 +67,13 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       char: 'z',
       default: '',
     }),
-    'install-type': Flags.custom<'All' | 'Delta'>({
-      options: ['All', 'Delta'],
+    'install-type': Flags.custom<'All' | 'Delta' | 'Upgrade'>({
+      options: ['All', 'Delta', 'Upgrade'],
     })({
       char: 'i',
       summary: messages.getMessage('flags.install-type.summary'),
       description: messages.getMessage('flags.install-type.description'),
-      default: 'Delta',
+      default: 'Upgrade',
     }),
     'installation-key': Flags.string({
       summary: messages.getMessage('flags.installation-key.summary'),
@@ -145,7 +146,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       throw messages.createError('error.apiVersionTooLow');
     }
 
-    let packagesToInstall: PackageToInstall[] = [];
+    let packagesToInstall: Map<string, PackageToInstall> = new Map();
     const packageInstallRequests: PackageInstallRequest[] = [];
     const devHubDependencies: PackageDirDependency[] = [];
 
@@ -154,29 +155,32 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
     for (const packageDirectory of this.project?.getPackageDirectories() ?? []) {
       for (const dependency of packageDirectory?.dependencies ?? []) {
         if (dependency.package && dependency.versionNumber) {
-          // This must be resolved by a dev hub
+          // These package dependencies must resolved within the Devhub
+          // package represents a Package2.Id (0Ho)
+          // versionNumber represents a semantic version (1.2.0.1 or 1.2.0.LATEST)
           devHubDependencies.push(dependency);
           continue;
         }
 
-        const packageVersionId = this.project.getPackageIdFromAlias(dependency.package) ?? dependency.package;
+        const subscriberPackageVersionId = this.project.getPackageIdFromAlias(dependency.package) ?? dependency.package;
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [dependency.package]);
         }
 
-        packagesToInstall.push({
-          Status: '',
-          PackageName: dependency.package,
-          SubscriberPackageVersionId: packageVersionId,
-        } as PackageToInstall);
+        packagesToInstall.set(subscriberPackageVersionId, {
+          packageName: dependency.package,
+          skip: false,
+          status: '',
+          subscriberPackageVersionId,
+        });
       }
     }
 
     this.spinner.stop();
 
     if (devHubDependencies.length > 0) {
-      this.spinner.start('Resolving package versions from dev hub', '\n', { stdout: true });
+      this.spinner.start('Resolving SubscriberPackageVersionIds from the Devhub', '\n', { stdout: true });
 
       if (!flags['target-dev-hub']) {
         throw messages.createError('error.targetDevHubMissing');
@@ -197,44 +201,37 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           continue;
         }
 
-        const packageId = this.project.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
+        const package2Id = this.project.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
 
-        if (!isPackageId(packageId)) {
+        if (!isPackage2Id(package2Id)) {
           throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
         }
 
-        const packageVersionId = await resolvePackageVersionId(
-          packageId,
+        const subscriberPackageVersionId = await resolveSubscriberPackageVersionId(
+          package2Id,
           devHubDependency.versionNumber,
           flags.branch,
           targetDevHubConnection
         );
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [devHubDependency.package]);
         }
 
-        packagesToInstall.push({
-          PackageName: devHubDependency.package,
-          Status: '',
-          SubscriberPackageVersionId: packageVersionId,
-        } as PackageToInstall);
+        packagesToInstall.set(subscriberPackageVersionId, {
+          packageName: devHubDependency.package,
+          skip: false,
+          status: '',
+          subscriberPackageVersionId,
+        });
       }
 
       this.spinner.stop();
     }
 
-    // Filter out duplicate packages before we start the install process
-    this.spinner.start('Checking for duplicate package dependencies', '\n', { stdout: true });
-    packagesToInstall = packagesToInstall.filter(
-      (packageToInstall, index, self) =>
-        index === self.findIndex((t) => t.SubscriberPackageVersionId === packageToInstall?.SubscriberPackageVersionId)
-    );
-    this.spinner.stop();
-
-    if (packagesToInstall?.length === 0) {
+    if (packagesToInstall?.size === 0) {
       this.log('No packages were found to install');
-      return packagesToInstall;
+      return [];
     }
 
     // Process any installation keys for the packages
@@ -255,7 +252,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         const packageVersionId = this.project.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
         const packageInstallationKey = installationKeyPair[1];
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [packageVersionId]);
         }
 
@@ -264,29 +261,94 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
       this.spinner.stop();
     }
 
+    this.spinner.start('Analyzing which packages to install', '\n', { stdout: true });
+
     let installedPackages: InstalledPackages[] = [];
 
-    // If precheck is enabled, get the currently installed packages
-    if (installType[flags['install-type']] === installType.Delta) {
-      this.spinner.start('Analyzing which packages to install', '\n', { stdout: true });
+    // If Delta or Upgrade install is selected, get the installed packages from the org
+    if (
+      installType[flags['install-type']] === installType.Delta ||
+      installType[flags['install-type']] === installType.Upgrade
+    ) {
       installedPackages = await SubscriberPackageVersion.installedList(targetOrgConnection);
-      this.spinner.stop();
     }
 
-    this.spinner.start('Installing dependent packages', '\n', { stdout: true });
+    // If we are performing a Delta install, check if the package is already installed
+    if (installType[flags['install-type']] === installType.Delta) {
+      // Construct an array of installed SubscriberPackageVersionIds
+      const installedSubscriberPackageVersionIds = installedPackages.map(
+        (installedPackage) => installedPackage.SubscriberPackageVersionId
+      );
 
-    for (const packageToInstall of packagesToInstall) {
-      if (installType[flags['install-type']] === installType.Delta) {
+      for (const [subscriberPackageVersionId, packageToInstall] of packagesToInstall) {
+        if (installedSubscriberPackageVersionIds.includes(subscriberPackageVersionId)) {
+          packageToInstall.skip = true;
+          packageToInstall.status = 'Skipped';
+
+          this.log(
+            `Package ${packageToInstall?.packageName} (${packageToInstall?.subscriberPackageVersionId}) is already installed and will be skipped`
+          );
+        }
+      }
+    }
+
+    // If we are performing an Upgrade install, check if the package is an upgrade
+    if (installType[flags['install-type']] === installType.Upgrade) {
+      // Construct a map of installed SubscriberPackageIds
+      const installedSubscriberPackageIds = new Map(
+        installedPackages.map((installedPackage) => [installedPackage.SubscriberPackageId, installedPackage])
+      );
+
+      // Construct a map of installed SubscriberPackageVersionIds
+      const installedSubscriberPackageVersionIds = new Map(
+        installedPackages.map((installedPackage) => [installedPackage.SubscriberPackageVersionId, installedPackage])
+      );
+
+      // We first need to check for SubscriberPackageVersionIds that are already installed
+      for (const [subscriberPackageVersionId, packageToInstall] of packagesToInstall) {
+        if (installedSubscriberPackageVersionIds.has(subscriberPackageVersionId)) {
+          packageToInstall.skip = true;
+          packageToInstall.status = 'Skipped';
+
+          this.log(
+            `Package ${packageToInstall?.packageName} (${packageToInstall?.subscriberPackageVersionId}) is already installed and will be skipped`
+          );
+
+        }
+      }
+
+      // Retrieve the SubscriberPackage for the packages that we still need to install
+
+    
+
+        // If the exact package is NOT already installed, then we need to determine if this is an upgrade
+        const 
+
+        const subscriberPackageVersion = new SubscriberPackageVersion({
+          aliasOrId: packageToInstall?.subscriberPackageVersionId,
+          connection: targetOrgConnection,
+          password: undefined,
+        });
+
+        await subscriberPackageVersion.getVersionNumber();
+
         if (isPackageVersionInstalled(installedPackages, packageToInstall?.SubscriberPackageVersionId)) {
+          packageToInstall.Skip = true;
           packageToInstall.Status = 'Skipped';
 
           this.log(
             `Package ${packageToInstall?.PackageName} (${packageToInstall?.SubscriberPackageVersionId}) is already installed and will be skipped`
           );
-
-          continue;
         }
       }
+    }
+
+    for (const packageToInstall of packagesToInstall) {
+      if (packageToInstall.Skip) {
+        continue;
+      }
+
+      this.spinner.start(`Installing package ${packageToInstall.PackageName}`, '\n', { stdout: true });
 
       let installationKey = '';
       // Check if we have an installation key for this package
@@ -294,8 +356,6 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         // If we do, set the installation key value
         installationKey = installationKeyMap.get(packageToInstall?.SubscriberPackageVersionId) ?? '';
       }
-
-      this.spinner.start(`Preparing package ${packageToInstall.PackageName}`, '\n', { stdout: true });
 
       const subscriberPackageVersion = new SubscriberPackageVersion({
         aliasOrId: packageToInstall?.SubscriberPackageVersionId,

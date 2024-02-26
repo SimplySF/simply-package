@@ -10,25 +10,30 @@ import { InstalledPackages, PackagingSObjects } from '@salesforce/packaging';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 
-export const PACKAGE_ID_PREFIX = '0Ho';
-export const PACKAGE_VERSION_ID_PREFIX = '04t';
+export const PACKAGE_PREFIX_PACKAGE2 = '0Ho';
+export const PACKAGE_PREFIX_PACKAGE2_VERSION = '05i';
+export const PACKAGE_PREFIX_SUBSCRIBER_PACKAGE = '033';
+export const PACKAGE_PREFIX_SUBSCRIBER_PACKAGE_VERSION = '04t';
 
-export const isPackageId = (inputToEvaluate: string): boolean =>
-  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_ID_PREFIX) : false;
+export const isPackage2Id = (inputToEvaluate: string): boolean =>
+  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_PREFIX_PACKAGE2) : false;
 
-export const isPackageVersionId = (inputToEvaluate: string): boolean =>
-  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_VERSION_ID_PREFIX) : false;
+export const isPackage2VersionId = (inputToEvaluate: string): boolean =>
+  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_PREFIX_PACKAGE2_VERSION) : false;
 
-export const isPackageVersionInstalled = (
+export const isSubscriberPackageId = (inputToEvaluate: string): boolean =>
+  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_PREFIX_SUBSCRIBER_PACKAGE) : false;
+
+export const isSubscriberPackageVersionId = (inputToEvaluate: string): boolean =>
+  inputToEvaluate ? inputToEvaluate.startsWith(PACKAGE_PREFIX_SUBSCRIBER_PACKAGE_VERSION) : false;
+
+export const isSubscriberPackageVersionInstalled = (
   installedPackages: InstalledPackages[],
   subscriberPackageVersionId: string
-): boolean => {
-  const matchedPackaged = installedPackages.find(
+): boolean =>
+  installedPackages.some(
     (installedPackage) => installedPackage?.SubscriberPackageVersion?.Id === subscriberPackageVersionId
   );
-
-  return matchedPackaged ? true : false;
-};
 
 export const reducePackageInstallRequestErrors = (request: PackageInstallRequest): string => {
   let errorMessage = '<empty>';
@@ -43,17 +48,17 @@ export const reducePackageInstallRequestErrors = (request: PackageInstallRequest
   return errorMessage;
 };
 
-export const resolvePackageVersionId = async (
-  packageId: string,
+export const resolveSubscriberPackageVersionId = async (
+  package2Id: string,
   versionNumber: string,
   branch: string,
   connection: Connection
 ): Promise<string> => {
-  if (isPackageVersionId(packageId)) {
-    return packageId;
+  if (isSubscriberPackageVersionId(package2Id)) {
+    return package2Id;
   }
 
-  if (!isPackageId(packageId)) {
+  if (!isPackage2Id(package2Id)) {
     throw new SfError('The Package2Id provided is not a valid Package2Id');
   }
 
@@ -64,41 +69,39 @@ export const resolvePackageVersionId = async (
   const versionParts = versionWorking.split('.');
 
   // Assemble the query needed
-  let query = 'SELECT SubscriberPackageVersionId, IsPasswordProtected, IsReleased ';
-  query += 'FROM Package2Version ';
-  query += `WHERE Package2Id='${packageId}' AND MajorVersion=${versionParts[0]} AND IsDeprecated = FALSE `;
+  let query = `SELECT SubscriberPackageVersionId, IsPasswordProtected, IsReleased FROM Package2Version WHERE Package2Id='${package2Id}' AND MajorVersion=${versionParts[0]} AND IsDeprecated = FALSE`;
 
   // If Minor Version isn't set to LATEST, look for the exact Minor Version
   if (versionParts[1]) {
-    query += `AND MinorVersion=${versionParts[1]} `;
+    query += ` AND MinorVersion=${versionParts[1]}`;
   }
 
   // If Patch Version isn't set to LATEST, look for the exact Patch Version
   if (versionParts[2]) {
-    query += `AND PatchVersion=${versionParts[2]} `;
+    query += ` AND PatchVersion=${versionParts[2]}`;
   }
 
-  // If Build Number isn't set to LATEST, look for the exact Package Version
+  // If Build Number isn't set to LATEST, look for the exact Build Version
   if (versionParts[3]) {
-    query += `AND BuildNumber=${versionParts[3]} `;
+    query += ` AND BuildNumber=${versionParts[3]}`;
   }
 
   // If Branch is specified, use it to filter
   if (branch) {
-    query += `AND Branch='${branch.trim()}' `;
+    query += ` AND Branch='${branch.trim()}'`;
   } else {
-    query += 'AND Branch=NULL ';
+    query += ' AND Branch=NULL';
   }
 
   // if the query is looking for a "LATEST", "Non-pinned" version, then we need
   //  to sort the result list in such a manner to that the latest version will
   //  be the first record in the result set.
-  query += 'ORDER BY MajorVersion DESC, MinorVersion DESC, PatchVersion DESC, BuildNumber DESC LIMIT 1';
+  query += ' ORDER BY MajorVersion DESC, MinorVersion DESC, PatchVersion DESC, BuildNumber DESC LIMIT 1';
 
   const resultPackageVersionRecord = await connection.tooling.query(query);
 
   if (resultPackageVersionRecord?.records?.length === 0) {
-    throw new SfError(`Unable to find SubscriberPackageVersionId for dependent package ${packageId}`);
+    throw new SfError(`Unable to find SubscriberPackageVersionId for dependent package ${package2Id}`);
   }
 
   return resultPackageVersionRecord.records[0]['SubscriberPackageVersionId'] as string;
