@@ -1,3 +1,12 @@
+## [1.1.3](https://github.com/SimplySF/simply-package/compare/1.1.2...1.1.3) (2024-02-28)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 6.5.5 to 6.5.6 ([3610cb3](https://github.com/SimplySF/simply-package/commit/3610cb34a12d2a02b17e8f9457ca333c54a5b1b2))
+
+
+
 ## [1.1.2](https://github.com/SimplySF/simply-package/compare/1.1.1...1.1.2) (2024-02-26)
 
 
