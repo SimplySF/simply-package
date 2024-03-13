@@ -1,7 +1,7 @@
 {
   "name": "@simplysf/simply-package",
   "description": "Utilities for working with packages",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "author": "@ClayChipps",
   "bugs": "https://github.com/SimplySF/simply-package/issues",
   "dependencies": {
@@ -94,7 +94,7 @@
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
-    "postpack": "sf-clean",
+    "postpack": "sf-clean --ignore-signing-artifacts",
     "prepack": "sf-prepack",
     "prepare": "sf-install",
     "readme": "oclif readme --no-aliases",
