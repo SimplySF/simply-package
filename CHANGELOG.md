@@ -1,3 +1,12 @@
+## [1.1.6](https://github.com/SimplySF/simply-package/compare/1.1.5...1.1.6) (2024-03-19)
+
+
+### Bug Fixes
+
+* incorrect tagging logic ([1158f5f](https://github.com/SimplySF/simply-package/commit/1158f5fd2b2b42d1d75aab469df4d1085caf9494))
+
+
+
 ## [1.1.5](https://github.com/SimplySF/simply-package/compare/1.1.4...1.1.5) (2024-03-13)
 
 
