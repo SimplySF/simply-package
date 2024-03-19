@@ -1458,6 +1458,50 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-2.0.1.tgz"
   integrity sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==
 
+"@inquirer/confirm@^2.0.17":
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@inquirer/confirm/-/confirm-2.0.17.tgz#a45eb1b973c51c993a3c093a0114e960b1cf09a4"
+  integrity sha512-EqzhGryzmGpy2aJf6LxJVhndxYmFs+m8cxXzf8nejb1DE3sabf6mUgBcp4J0jAUEiAcYzqmkqRr7LPFh/WdnXA==
+  dependencies:
+    "@inquirer/core" "^6.0.0"
+    "@inquirer/type" "^1.1.6"
+    chalk "^4.1.2"
+
+"@inquirer/core@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-6.0.0.tgz#d44ccd8ae09a4879a78f09cca35bf1ab894b95f4"
+  integrity sha512-fKi63Khkisgda3ohnskNf5uZJj+zXOaBvOllHsOkdsXRA/ubQLJQrZchFFi57NKbZzkTunXiBMdvWOv71alonw==
+  dependencies:
+    "@inquirer/type" "^1.1.6"
+    "@types/mute-stream" "^0.0.4"
+    "@types/node" "^20.10.7"
+    "@types/wrap-ansi" "^3.0.0"
+    ansi-escapes "^4.3.2"
+    chalk "^4.1.2"
+    cli-spinners "^2.9.2"
+    cli-width "^4.1.0"
+    figures "^3.2.0"
+    mute-stream "^1.0.0"
+    run-async "^3.0.0"
+    signal-exit "^4.1.0"
+    strip-ansi "^6.0.1"
+    wrap-ansi "^6.2.0"
+
+"@inquirer/password@^1.1.16":
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/@inquirer/password/-/password-1.1.16.tgz#37ddebbe37c6e76f8ad27d1f726aacdd7c423558"
+  integrity sha512-aZYZVHLUXZ2gbBot+i+zOJrks1WaiI95lvZCn1sKfcw6MtSSlYC8uDX8sTzQvAsQ8epHoP84UNvAIT0KVGOGqw==
+  dependencies:
+    "@inquirer/core" "^6.0.0"
+    "@inquirer/type" "^1.1.6"
+    ansi-escapes "^4.3.2"
+    chalk "^4.1.2"
+
+"@inquirer/type@^1.1.6":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-1.2.1.tgz#fbc7ab3a2e5050d0c150642d5e8f5e88faa066b8"
+  integrity sha512-xwMfkPAxeo8Ji/IxfUSqzRi0/+F2GIqJmpc5/thelgMGsjNZcjDDRBO9TLXT1s/hdx/mK5QbVIvgoLIFgXhTMQ==
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz"
@@ -1981,7 +2025,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.0"
 
-"@salesforce/core@^6.4.1", "@salesforce/core@^6.5.3", "@salesforce/core@^6.5.6", "@salesforce/core@^6.7.0", "@salesforce/core@^6.7.1":
+"@salesforce/core@^6.4.1", "@salesforce/core@^6.5.3", "@salesforce/core@^6.5.6", "@salesforce/core@^6.6.0", "@salesforce/core@^6.7.0", "@salesforce/core@^6.7.1":
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-6.7.1.tgz#4dcfb62bc3d488462ea6e9438ff092cf202c1696"
   integrity sha512-SxscNdH2l+K5LmqH9XrosX+fjhPkMLN3hsG50sWQi7DbaI1Z0FGAKVOmVe6fZZsUsVNThKvZ+159IwwtxHWY6w==
@@ -2073,6 +2117,19 @@
     "@types/inquirer" "^8.2.3"
     chalk "^4"
     inquirer "^8.2.5"
+
+"@salesforce/sf-plugins-core@^7.1.16":
+  version "7.1.16"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-7.1.16.tgz#a68673560f01421ac18a0bc1d4687abc35e11234"
+  integrity sha512-v135A7TG1n97eFoh0j96kbHKbivXbbd7M5url3L0I5lJsCGGF+mMSL2Tpm8FNUN8DCLOGkvymR1s2QmNzMR7Tw==
+  dependencies:
+    "@inquirer/confirm" "^2.0.17"
+    "@inquirer/password" "^1.1.16"
+    "@oclif/core" "^3.23.0"
+    "@salesforce/core" "^6.6.0"
+    "@salesforce/kit" "^3.0.15"
+    "@salesforce/ts-types" "^2.0.9"
+    chalk "^5.3.0"
 
 "@salesforce/source-deploy-retrieve@^10.5.2":
   version "10.5.2"
@@ -3272,6 +3329,13 @@
   resolved "https://registry.npmjs.org/@types/mocha/-/mocha-10.0.6.tgz"
   integrity sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==
 
+"@types/mute-stream@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@types/mute-stream/-/mute-stream-0.0.4.tgz#77208e56a08767af6c5e1237be8888e2f255c478"
+  integrity sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "20.10.3"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.10.3.tgz"
@@ -3298,6 +3362,13 @@
   version "18.19.6"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.19.6.tgz"
   integrity sha512-X36s5CXMrrJOs2lQCdDF68apW4Rfx9ixYMawlepwmE4Anezv/AV2LSpKD1Ub8DAc+urp5bk0BGZ6NtmBitfnsg==
+  dependencies:
+    undici-types "~5.26.4"
+
+"@types/node@^20.10.7":
+  version "20.11.29"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.11.29.tgz#431253cede34f392d6aaf7acad427b9c23aa60f6"
+  integrity sha512-P99thMkD/1YkCvAtOd6/zGedKNA0p2fj4ZpjCzcNiSCBWgm3cNRTBfa/qjFnsKkkojxu4vVLtWpesnZ9+ap+gA==
   dependencies:
     undici-types "~5.26.4"
 
@@ -3357,6 +3428,11 @@
   dependencies:
     "@types/expect" "^1.20.4"
     "@types/node" "*"
+
+"@types/wrap-ansi@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/wrap-ansi/-/wrap-ansi-3.0.0.tgz#18b97a972f94f60a679fd5c796d96421b9abb9fd"
+  integrity sha512-ltIpx+kM7g/MLRZfkbL7EsCEjfzCcScLpkg37eXEtx5kmrAKBkTJwd1GIAjDSL8wTpM6Hzn5YO4pSb91BEwu1g==
 
 "@typescript-eslint/eslint-plugin@^6.21.0":
   version "6.21.0"
@@ -4215,7 +4291,7 @@ cli-progress@^3.12.0:
   dependencies:
     string-width "^4.2.3"
 
-cli-spinners@^2.5.0:
+cli-spinners@^2.5.0, cli-spinners@^2.9.2:
   version "2.9.2"
   resolved "https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.9.2.tgz"
   integrity sha512-ywqV+5MmyL4E7ybXgKys4DugZbX0FC6LnwrhjuykIjnK9k8OQacQ7axGKnjDXWNhns0xot3bZI5h55H8yo9cJg==
@@ -4231,6 +4307,11 @@ cli-width@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/cli-width/-/cli-width-3.0.0.tgz"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
+
+cli-width@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-4.1.0.tgz#42daac41d3c254ef38ad8ac037672130173691c5"
+  integrity sha512-ouuZd4/dm2Sw5Gmqy6bGyNNNe1qt9RpmxveLSO7KcgsTnU7RXfsw+/bukWGo1abgBiMAic068rclZsO4IWmmxQ==
 
 cliui@^6.0.0:
   version "6.0.0"
@@ -5333,7 +5414,7 @@ faye@^1.4.0:
     tough-cookie "*"
     tunnel-agent "*"
 
-figures@^3.0.0:
+figures@^3.0.0, figures@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/figures/-/figures-3.2.0.tgz"
   integrity sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==
@@ -7505,6 +7586,11 @@ mute-stream@0.0.8:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
+mute-stream@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-1.0.0.tgz#e31bd9fe62f0aed23520aa4324ea6671531e013e"
+  integrity sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
@@ -8807,6 +8893,11 @@ run-async@^2.0.0, run-async@^2.4.0:
   resolved "https://registry.npmjs.org/run-async/-/run-async-2.4.1.tgz"
   integrity sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==
 
+run-async@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/run-async/-/run-async-3.0.0.tgz#42a432f6d76c689522058984384df28be379daad"
+  integrity sha512-540WwVDOMxA6dN6We19EcT9sc3hkXPw5mzRNGM3FkdN/vtE9NFvj5lFAPNwUDmJjXidm3v7TC1cTE7t17Ulm1Q==
+
 run-parallel@^1.1.9:
   version "1.2.0"
   resolved "https://registry.npmjs.org/run-parallel/-/run-parallel-1.2.0.tgz"
@@ -9011,7 +9102,7 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-signal-exit@^4.0.1:
+signal-exit@^4.0.1, signal-exit@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
