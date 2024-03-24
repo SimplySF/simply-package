@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/SimplySF/simply-package/compare/1.1.7...1.2.0) (2024-03-24)
+
+
+### Features
+
+* upgrade to sf plugins core 8 ([7a481ec](https://github.com/SimplySF/simply-package/commit/7a481ec2fce94db8002ed4fbc059dc6faaad598d))
+
+
+
 ## [1.1.7](https://github.com/SimplySF/simply-package/compare/1.1.6...1.1.7) (2024-03-19)
 
 
