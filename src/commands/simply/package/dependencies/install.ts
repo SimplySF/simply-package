@@ -159,7 +159,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           continue;
         }
 
-        const packageVersionId = this.project.getPackageIdFromAlias(dependency.package) ?? dependency.package;
+        const packageVersionId = this.project!.getPackageIdFromAlias(dependency.package) ?? dependency.package;
 
         if (!isPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [dependency.package]);
@@ -197,7 +197,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           continue;
         }
 
-        const packageId = this.project.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
+        const packageId = this.project!.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
 
         if (!isPackageId(packageId)) {
           throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
@@ -252,7 +252,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         }
 
         const installationKeyPair = installationKey.split(':');
-        const packageVersionId = this.project.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
+        const packageVersionId = this.project!.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
         const packageInstallationKey = installationKeyPair[1];
 
         if (!isPackageVersionId(packageVersionId)) {
@@ -359,7 +359,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         // If the user has specified --upgradetype Delete, then prompt for confirmation for Unlocked Packages
         if (flags['upgrade-type'] === 'Delete' && (await subscriberPackageVersion.getPackageType()) === 'Unlocked') {
           const promptMsg = messages.getMessage('prompt.upgradeType');
-          if (!(await this.confirm(promptMsg))) {
+          if (!(await this.confirm({ message: promptMsg }))) {
             throw messages.createError('info.canceledPackageInstall');
           }
         }
@@ -368,7 +368,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         const externalSites = await subscriberPackageVersion.getExternalSites();
         if (externalSites) {
           const promptMsg = messages.getMessage('prompt.enableRss', [externalSites.join('\n')]);
-          request.EnableRss = await this.confirm(promptMsg);
+          request.EnableRss = await this.confirm({ message: promptMsg });
         }
       }
 

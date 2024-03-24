@@ -61,8 +61,6 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
       throw messages.createError('errors.connectionFailed');
     }
 
-    const project = this.project;
-
     const matcher = flags.matcher;
     const matcherRegex = new RegExp(/^\d+\.\d+\.\d+$/);
     const matcherValid = matcherRegex.test(matcher);
@@ -90,7 +88,7 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
 
     this.spinner.start('Analyzing which package versions to delete...');
 
-    const packageVersions = await Package.listVersions(connection, project, packageVersionListOptions);
+    const packageVersions = await Package.listVersions(connection, this.project!, packageVersionListOptions);
 
     const targetVersions = packageVersions.filter(
       (packageVersion) =>
@@ -105,7 +103,7 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
     targetVersions.forEach((targetVersion) => {
       const packageVersionOptions: PackageVersionOptions = {
         connection,
-        project,
+        project: this.project!,
         idOrAlias: targetVersion.SubscriberPackageVersionId,
       };
 

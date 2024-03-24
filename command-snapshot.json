@@ -8,6 +8,7 @@
       "apex-compile",
       "api-version",
       "branch",
+      "flags-dir",
       "install-type",
       "installation-key",
       "json",
@@ -27,7 +28,7 @@
     "command": "simply:package:version:cleanup",
     "flagAliases": [],
     "flagChars": ["p", "s", "v"],
-    "flags": ["api-version", "json", "matcher", "package", "target-dev-hub"],
+    "flags": ["api-version", "flags-dir", "json", "matcher", "package", "target-dev-hub"],
     "plugin": "@simplysf/simply-package"
   }
 ]
