@@ -1,3 +1,12 @@
+## [1.2.2](https://github.com/SimplySF/simply-package/compare/1.2.1...1.2.2) (2024-04-03)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/sf-plugins-core from 8.0.0 to 8.0.3 ([7a46392](https://github.com/SimplySF/simply-package/commit/7a46392d40b624b46fad9b2f26e6c1667229a96c))
+
+
+
 ## [1.2.1](https://github.com/SimplySF/simply-package/compare/1.2.0...1.2.1) (2024-04-03)
 
 
