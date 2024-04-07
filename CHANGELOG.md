@@ -1,3 +1,12 @@
+## [1.2.4](https://github.com/SimplySF/simply-package/compare/1.2.3...1.2.4) (2024-04-07)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/packaging from 3.2.37 to 3.4.0 ([fb0e51f](https://github.com/SimplySF/simply-package/commit/fb0e51f31bb3d12316860d81c4c0dfed2525f269))
+
+
+
 ## [1.2.3](https://github.com/SimplySF/simply-package/compare/1.2.2...1.2.3) (2024-04-03)
 
 
