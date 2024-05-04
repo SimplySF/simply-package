@@ -21,11 +21,11 @@ import {
 } from '@salesforce/packaging';
 import { Optional } from '@salesforce/ts-types';
 import {
-  isPackageId,
-  isPackageVersionId,
-  isPackageVersionInstalled,
+  isPackage2Id,
+  isSubscriberPackageVersionId,
+  isSubscriberPackageVersionInstalled,
   reducePackageInstallRequestErrors,
-  resolvePackageVersionId,
+  resolveSubscriberPackageVersionId,
 } from '../../../../common/packageUtils.js';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
@@ -162,7 +162,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
         const packageVersionId = this.project!.getPackageIdFromAlias(dependency.package) ?? dependency.package;
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [dependency.package]);
         }
 
@@ -200,18 +200,18 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
         const packageId = this.project!.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
 
-        if (!isPackageId(packageId)) {
+        if (!isPackage2Id(packageId)) {
           throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
         }
 
-        const packageVersionId = await resolvePackageVersionId(
+        const packageVersionId = await resolveSubscriberPackageVersionId(
           packageId,
           devHubDependency.versionNumber,
           flags.branch,
           targetDevHubConnection
         );
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [devHubDependency.package]);
         }
 
@@ -256,7 +256,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         const packageVersionId = this.project!.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
         const packageInstallationKey = installationKeyPair[1];
 
-        if (!isPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [packageVersionId]);
         }
 
@@ -278,7 +278,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
     for (const packageToInstall of packagesToInstall) {
       if (installType[flags['install-type']] === installType.Delta) {
-        if (isPackageVersionInstalled(installedPackages, packageToInstall?.SubscriberPackageVersionId)) {
+        if (isSubscriberPackageVersionInstalled(installedPackages, packageToInstall?.SubscriberPackageVersionId)) {
           packageToInstall.Status = 'Skipped';
 
           this.log(
