@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/SimplySF/simply-package/compare/1.2.6...1.3.0) (2024-05-04)
+
+
+### Features
+
+* upgrade salesforce deps ([4d179f5](https://github.com/SimplySF/simply-package/commit/4d179f5ecb53a9212eae999108d451645f4d917c))
+
+
+
 ## [1.2.6](https://github.com/SimplySF/simply-package/compare/1.2.5...1.2.6) (2024-04-27)
 
 
