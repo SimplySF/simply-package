@@ -1,3 +1,12 @@
+## [1.2.6](https://github.com/SimplySF/simply-package/compare/1.2.5...1.2.6) (2024-04-27)
+
+
+### Bug Fixes
+
+* incorrect test directory ([6934782](https://github.com/SimplySF/simply-package/commit/6934782ddade422faa44f0bbdda4d74b10b56a5c))
+
+
+
 ## [1.2.5](https://github.com/SimplySF/simply-package/compare/1.2.4...1.2.5) (2024-04-25)
 
 
