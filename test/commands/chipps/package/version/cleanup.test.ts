@@ -6,7 +6,7 @@
  */
 
 import { SfError } from '@salesforce/core';
-import { MockTestOrgData, TestContext } from '@salesforce/core/lib/testSetup.js';
+import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageSaveResult, PackageVersion, PackageVersionListResult } from '@salesforce/packaging';
 import { expect } from 'chai';
 import { PackageVersionCleanupResult } from '../../../../../src/commands/simply/package/version/cleanup.js';

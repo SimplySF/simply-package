@@ -33,6 +33,7 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
   public static readonly requiresProject = true;
 
   public static readonly flags = {
+    ...SfCommand.baseFlags,
     'api-version': Flags.orgApiVersion(),
     matcher: Flags.string({
       summary: messages.getMessage('flags.matcher.summary'),

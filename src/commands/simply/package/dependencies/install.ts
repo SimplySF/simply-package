@@ -52,6 +52,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
   public static readonly requiresProject = true;
 
   public static readonly flags = {
+    ...SfCommand.baseFlags,
     'apex-compile': Flags.custom<PackageInstallCreateRequest['ApexCompileType']>({
       options: ['all', 'package'],
     })({
