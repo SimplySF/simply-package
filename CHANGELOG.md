@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/SimplySF/simply-package/compare/1.3.0...1.4.0) (2024-05-04)
+
+
+### Features
+
+* refactor to use improved package functions ([d400d0f](https://github.com/SimplySF/simply-package/commit/d400d0fc318389e1154481b600e64d69af7ccbf4))
+
+
+
 # [1.3.0](https://github.com/SimplySF/simply-package/compare/1.2.6...1.3.0) (2024-05-04)
 
 
