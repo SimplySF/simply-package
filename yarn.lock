@@ -1413,7 +1413,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.0"
 
-"@salesforce/core@^7.0.1", "@salesforce/core@^7.3.1", "@salesforce/core@^7.3.2", "@salesforce/core@^7.3.3":
+"@salesforce/core@^7.0.1", "@salesforce/core@^7.3.1", "@salesforce/core@^7.3.3":
   version "7.3.3"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-7.3.3.tgz#4b84aba806264dd13716f4c4774bd5a417259662"
   integrity sha512-THjYnOrfj0vW+qvlm70NDasH3RHD03cm884yi1+1axA4ugS4FFxXrPDPWAEU5ve5B4vnT7CJfuD/Q56l67ug8w==
@@ -1449,16 +1449,16 @@
     "@salesforce/ts-types" "^2.0.9"
     tslib "^2.6.2"
 
-"@salesforce/packaging@^3.5.9":
-  version "3.5.11"
-  resolved "https://registry.yarnpkg.com/@salesforce/packaging/-/packaging-3.5.11.tgz#29063859efaa3052315e8a72686a4003fc04b0b2"
-  integrity sha512-VTOxg5LPd7aTh7heTJzUGVy7Vcb07ZSQEPmoJXFDTo099DtwkppAqTss63kpp2oM0N4NFWpcfN0Oqwrzs+a7mA==
+"@salesforce/packaging@^3.5.13":
+  version "3.5.13"
+  resolved "https://registry.yarnpkg.com/@salesforce/packaging/-/packaging-3.5.13.tgz#684af1fe3669c71330206a0067e9f6c5aca7b715"
+  integrity sha512-MjMfZuWQpqSvBJ3yAs6pNqsmme2/8pkCvQh1QuEYMCcZrZjYh4zyW29Ea1lpN0ZUzm+jPLhAy1ZoEiOru7m1Pw==
   dependencies:
     "@jsforce/jsforce-node" "^3.2.0"
-    "@salesforce/core" "^7.3.2"
+    "@salesforce/core" "^7.3.3"
     "@salesforce/kit" "^3.1.1"
     "@salesforce/schemas" "^1.7.0"
-    "@salesforce/source-deploy-retrieve" "^11.1.2"
+    "@salesforce/source-deploy-retrieve" "^11.3.0"
     "@salesforce/ts-types" "^2.0.9"
     fast-xml-parser "^4.3.6"
     globby "^11"
@@ -1505,7 +1505,7 @@
     "@salesforce/ts-types" "^2.0.9"
     chalk "^5.3.0"
 
-"@salesforce/source-deploy-retrieve@^11.1.2":
+"@salesforce/source-deploy-retrieve@^11.3.0":
   version "11.3.0"
   resolved "https://registry.yarnpkg.com/@salesforce/source-deploy-retrieve/-/source-deploy-retrieve-11.3.0.tgz#7487734f115fe8c92c432955b58116abc646c400"
   integrity sha512-NsiDL1i+CWXcCOGYtQtggrtJuFIr5zHdoyn5atcgFuHk2X9H7Czf3kletpvZh0D2T0CHy6Q9ktf+Vv/UjFmxPw==
