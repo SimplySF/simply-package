@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/SimplySF/simply-package/compare/1.4.0...1.5.0) (2024-05-09)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/packaging from 3.5.11 to 3.5.13 ([3461fed](https://github.com/SimplySF/simply-package/commit/3461fedf0a8af8430892d674a22e387a81d45914))
+
+
+### Features
+
+* update deps ([da6dbe7](https://github.com/SimplySF/simply-package/commit/da6dbe74c696c7f41bdaa822bc5a426f9f1c339d))
+
+
+
 # [1.4.0](https://github.com/SimplySF/simply-package/compare/1.3.0...1.4.0) (2024-05-04)
 
 
