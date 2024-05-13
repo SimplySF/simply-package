@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/SimplySF/simply-package/compare/1.5.0...1.5.1) (2024-05-13)
+
+
+### Bug Fixes
+
+* **deps:** bump @oclif/core from 3.26.5 to 3.26.6 ([908b768](https://github.com/SimplySF/simply-package/commit/908b768da2e67686ce2b2ca0aac20e1faa70e0a4))
+
+
+
 # [1.5.0](https://github.com/SimplySF/simply-package/compare/1.4.0...1.5.0) (2024-05-09)
 
 
