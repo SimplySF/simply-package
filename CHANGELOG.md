@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/SimplySF/simply-package/compare/1.6.0...1.7.0) (2024-05-19)
+
+
+### Features
+
+* update to use new packaging function for resolution ([3634093](https://github.com/SimplySF/simply-package/commit/363409370f8dcbbfe27898cbe788f0b8ad3ee99b))
+
+
+
 # [1.6.0](https://github.com/SimplySF/simply-package/compare/1.5.1...1.6.0) (2024-05-19)
 
 
