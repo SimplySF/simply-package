@@ -25,7 +25,6 @@ import {
   isSubscriberPackageVersionId,
   isSubscriberPackageVersionInstalled,
   reducePackageInstallRequestErrors,
-  resolveSubscriberPackageVersionId,
 } from '../../../../common/packageUtils.js';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
@@ -204,12 +203,11 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
         }
 
-        const packageVersionId = await resolveSubscriberPackageVersionId(
+        const packageVersionId = await SubscriberPackageVersion.resolveId(targetDevHubConnection, {
+          branch: flags.branch,
           packageId,
-          devHubDependency.versionNumber,
-          flags.branch,
-          targetDevHubConnection
-        );
+          versionNumber: devHubDependency.versionNumber,
+        });
 
         if (!isSubscriberPackageVersionId(packageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [devHubDependency.package]);
