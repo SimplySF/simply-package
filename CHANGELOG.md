@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/SimplySF/simply-package/compare/1.5.1...1.6.0) (2024-05-19)
+
+
+### Features
+
+* bump deps ([68bf465](https://github.com/SimplySF/simply-package/commit/68bf465b7b8bdd9679e520507c24a3b598396584))
+
+
+
 ## [1.5.1](https://github.com/SimplySF/simply-package/compare/1.5.0...1.5.1) (2024-05-13)
 
 
