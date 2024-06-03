@@ -1,3 +1,12 @@
+## [1.7.2](https://github.com/SimplySF/simply-package/compare/1.7.1...1.7.2) (2024-06-03)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/sf-plugins-core from 9.0.10 to 9.1.1 ([1e7200d](https://github.com/SimplySF/simply-package/commit/1e7200d360c9c0f66f24300eae2a6fa7c44c9d8a))
+
+
+
 ## [1.7.1](https://github.com/SimplySF/simply-package/compare/1.7.0...1.7.1) (2024-06-03)
 
 
