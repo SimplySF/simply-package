@@ -1,3 +1,12 @@
+## [1.7.1](https://github.com/SimplySF/simply-package/compare/1.7.0...1.7.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/kit from 3.1.1 to 3.1.2 ([fe6d8c9](https://github.com/SimplySF/simply-package/commit/fe6d8c9d3e35f8c64b4ea83d1b0f8808315da75c))
+
+
+
 # [1.7.0](https://github.com/SimplySF/simply-package/compare/1.6.0...1.7.0) (2024-05-19)
 
 
