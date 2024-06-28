@@ -1,3 +1,12 @@
+## [1.7.3](https://github.com/SimplySF/simply-package/compare/1.7.2...1.7.3) (2024-06-28)
+
+
+### Bug Fixes
+
+* **deps:** bump braces from 3.0.2 to 3.0.3 ([4ec11cf](https://github.com/SimplySF/simply-package/commit/4ec11cf0f35b7fd0d8cecee13fc3688f548b0a05))
+
+
+
 ## [1.7.2](https://github.com/SimplySF/simply-package/compare/1.7.1...1.7.2) (2024-06-03)
 
 
