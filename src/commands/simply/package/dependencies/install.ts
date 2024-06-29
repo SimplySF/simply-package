@@ -9,7 +9,8 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-unsafe-finally */
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { AuthInfo, Connection, Messages, Lifecycle, PackageDirDependency, SfError } from '@salesforce/core';
+import { AuthInfo, Connection, Messages, Lifecycle, SfError } from '@salesforce/core';
+import { isPackagingDirectory } from '@salesforce/core/project';
 import { Duration } from '@salesforce/kit';
 import {
   InstalledPackages,
@@ -19,6 +20,7 @@ import {
   SubscriberPackageVersion,
   PackagingSObjects,
 } from '@salesforce/packaging';
+import { PackageDirDependency } from '@salesforce/schemas';
 import { Optional } from '@salesforce/ts-types';
 import {
   isPackage2Id,
@@ -151,7 +153,11 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
     this.spinner.start('Analyzing project to determine packages to install', '\n', { stdout: true });
 
-    for (const packageDirectory of this.project?.getPackageDirectories() ?? []) {
+    const packageDirectories = this.project
+      ?.getPackageDirectories()
+      .filter((packageDirectory) => isPackagingDirectory(packageDirectory));
+
+    for (const packageDirectory of packageDirectories ?? []) {
       for (const dependency of packageDirectory?.dependencies ?? []) {
         if (dependency.package && dependency.versionNumber) {
           // This must be resolved by a dev hub
