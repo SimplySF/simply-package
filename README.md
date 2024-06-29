@@ -66,7 +66,7 @@ Install package dependencies for a Salesforce project.
 ```
 USAGE
   $ sf simply package dependencies install -o <value> [--json] [--flags-dir <value>] [-a all|package] [--api-version <value>] [-z
-    <value>] [-i All|Delta] [-k <value>] [-r] [-b <value>] [-s AllUsers|AdminsOnly] [-v <value>] [-t
+    <value>] [-i All|Delta] [-k <value>...] [-r] [-b <value>] [-s AllUsers|AdminsOnly] [-v <value>] [-t
     DeprecateOnly|Mixed|Delete] [-w <value>]
 
 FLAGS
@@ -153,7 +153,7 @@ FLAG DESCRIPTIONS
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 ```
 
-_See code: [src/commands/simply/package/dependencies/install.ts](https://github.com/SimplySF/simply-package/blob/1.7.3/src/commands/simply/package/dependencies/install.ts)_
+_See code: [src/commands/simply/package/dependencies/install.ts](https://github.com/SimplySF/simply-package/blob/1.8.0/src/commands/simply/package/dependencies/install.ts)_
 
 ## `sf simply package version cleanup`
 
@@ -194,5 +194,5 @@ FLAG DESCRIPTIONS
     The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
 ```
 
-_See code: [src/commands/simply/package/version/cleanup.ts](https://github.com/SimplySF/simply-package/blob/1.7.3/src/commands/simply/package/version/cleanup.ts)_
+_See code: [src/commands/simply/package/version/cleanup.ts](https://github.com/SimplySF/simply-package/blob/1.8.0/src/commands/simply/package/version/cleanup.ts)_
 <!-- commandsstop -->

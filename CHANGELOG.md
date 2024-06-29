@@ -1,3 +1,12 @@
+# [1.8.0](https://github.com/SimplySF/simply-package/compare/1.7.3...1.8.0) (2024-06-29)
+
+
+### Features
+
+* sfdx-core v8 ([1a8136c](https://github.com/SimplySF/simply-package/commit/1a8136c176c87d9130e693d5c32da7d07ac581e1))
+
+
+
 ## [1.7.3](https://github.com/SimplySF/simply-package/compare/1.7.2...1.7.3) (2024-06-28)
 
 
