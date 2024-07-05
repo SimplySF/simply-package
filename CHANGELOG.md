@@ -1,3 +1,12 @@
+## [1.8.1](https://github.com/SimplySF/simply-package/compare/1.8.0...1.8.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/packaging from 4.1.0 to 4.1.1 ([5a2acb2](https://github.com/SimplySF/simply-package/commit/5a2acb2a07d449ca134ed64af8ff696fd65aca16))
+
+
+
 # [1.8.0](https://github.com/SimplySF/simply-package/compare/1.7.3...1.8.0) (2024-06-29)
 
 
