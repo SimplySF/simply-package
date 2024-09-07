@@ -6,7 +6,7 @@
   "bugs": "https://github.com/SimplySF/simply-package/issues",
   "dependencies": {
     "@oclif/core": "^4",
-    "@salesforce/core": "^8.0.1",
+    "@salesforce/core": "^8.5.4",
     "@salesforce/kit": "^3.1.6",
     "@salesforce/packaging": "^4.1.1",
     "@salesforce/schemas": "^1.9.0",
