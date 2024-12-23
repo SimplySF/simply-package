@@ -1,3 +1,12 @@
+## [1.8.2](https://github.com/SimplySF/simply-package/compare/1.8.1...1.8.2) (2024-12-23)
+
+
+### Bug Fixes
+
+* bug in package installation dirs ([de870eb](https://github.com/SimplySF/simply-package/commit/de870eba781b867b0af62da6f2feefd0cb318e6d))
+
+
+
 ## [1.8.1](https://github.com/SimplySF/simply-package/compare/1.8.0...1.8.1) (2024-07-05)
 
 
