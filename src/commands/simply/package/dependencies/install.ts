@@ -10,7 +10,6 @@
 /* eslint-disable no-unsafe-finally */
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { AuthInfo, Connection, Messages, Lifecycle, SfError } from '@salesforce/core';
-import { isPackagingDirectory } from '@salesforce/core/project';
 import { Duration } from '@salesforce/kit';
 import {
   InstalledPackages,
@@ -23,6 +22,7 @@ import {
 import { PackageDirDependency } from '@salesforce/schemas';
 import { Optional } from '@salesforce/ts-types';
 import {
+  isDependenciesPackagingDirectory,
   isPackage2Id,
   isSubscriberPackageVersionId,
   isSubscriberPackageVersionInstalled,
@@ -155,7 +155,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
     const packageDirectories = this.project
       ?.getPackageDirectories()
-      .filter((packageDirectory) => isPackagingDirectory(packageDirectory));
+      .filter((packageDirectory) => isDependenciesPackagingDirectory(packageDirectory));
 
     for (const packageDirectory of packageDirectories ?? []) {
       for (const dependency of packageDirectory?.dependencies ?? []) {

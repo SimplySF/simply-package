@@ -5,7 +5,9 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { PackageDir } from '@salesforce/schemas';
 import { InstalledPackages, PackagingSObjects } from '@salesforce/packaging';
+import { BasePackageDirWithDependencies } from '../schemas/packageDirs.js';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 
@@ -46,3 +48,8 @@ export const reducePackageInstallRequestErrors = (request: PackageInstallRequest
 
   return errorMessage;
 };
+
+export const isDependenciesPackagingDirectory = (
+  packageDir: PackageDir
+): packageDir is BasePackageDirWithDependencies =>
+  'dependencies' in packageDir && Array.isArray(packageDir?.dependencies);
