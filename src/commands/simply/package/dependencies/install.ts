@@ -273,24 +273,27 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
 
     // If precheck is enabled, get the currently installed packages
     if (installType[flags['install-type']] === installType.Delta) {
-      this.spinner.start('Analyzing which packages to install', '\n', { stdout: true });
+      this.spinner.start('Analyzing which packages are installed', '\n', { stdout: true });
       installedPackages = await SubscriberPackageVersion.installedList(targetOrgConnection);
-      this.spinner.stop();
-    }
 
-    this.spinner.start('Installing dependent packages', '\n', { stdout: true });
-
-    for (const packageToInstall of packagesToInstall) {
-      if (installType[flags['install-type']] === installType.Delta) {
+      for (const packageToInstall of packagesToInstall) {
         if (isSubscriberPackageVersionInstalled(installedPackages, packageToInstall?.SubscriberPackageVersionId)) {
           packageToInstall.Status = 'Skipped';
 
-          this.log(
+          this.info(
             `Package ${packageToInstall?.PackageName} (${packageToInstall?.SubscriberPackageVersionId}) is already installed and will be skipped`
           );
 
           continue;
         }
+      }
+
+      this.spinner.stop();
+    }
+
+    for (const packageToInstall of packagesToInstall) {
+      if (packageToInstall.Status === 'Skipped') {
+        continue;
       }
 
       let installationKey = '';
