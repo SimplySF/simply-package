@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/SimplySF/simply-package/compare/1.8.2...1.9.0) (2024-12-27)
+
+
+### Features
+
+* fix issue with terminal output and update nuts ([c7bfcba](https://github.com/SimplySF/simply-package/commit/c7bfcba6c37f2cb74cdd51b3f7f5bba38942154f))
+
+
+
 ## [1.8.2](https://github.com/SimplySF/simply-package/compare/1.8.1...1.8.2) (2024-12-23)
 
 
