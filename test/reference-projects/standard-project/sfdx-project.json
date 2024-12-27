@@ -16,7 +16,6 @@
       ]
     }
   ],
-  "pushPackageDirectoriesSequentially": true,
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "57.0",

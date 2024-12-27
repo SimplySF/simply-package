@@ -238,7 +238,7 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
     this.spinner.stop();
 
     if (packagesToInstall?.length === 0) {
-      this.log('No packages were found to install');
+      this.info('No packages were found to install');
       return packagesToInstall;
     }
 
