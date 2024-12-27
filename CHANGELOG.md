@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/SimplySF/simply-package/compare/1.9.0...1.10.0) (2024-12-27)
+
+
+### Features
+
+* cleanup install and test projects ([05cbdbf](https://github.com/SimplySF/simply-package/commit/05cbdbf2dfb1bbc9d99e0e1911a06ca7691f5cab))
+
+
+
 # [1.9.0](https://github.com/SimplySF/simply-package/compare/1.8.2...1.9.0) (2024-12-27)
 
 
