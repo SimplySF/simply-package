@@ -1,3 +1,12 @@
+# [1.11.0](https://github.com/SimplySF/simply-package/compare/1.10.0...1.11.0) (2024-12-28)
+
+
+### Features
+
+* prepare for feature addition ([d597152](https://github.com/SimplySF/simply-package/commit/d597152c2865e529bd0451bd28df02fc63d8a986))
+
+
+
 # [1.10.0](https://github.com/SimplySF/simply-package/compare/1.9.0...1.10.0) (2024-12-27)
 
 
