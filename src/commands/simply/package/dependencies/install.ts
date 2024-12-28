@@ -165,16 +165,17 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           continue;
         }
 
-        const packageVersionId = this.project!.getPackageIdFromAlias(dependency.package) ?? dependency.package;
+        const subscriberPackageVersionId =
+          this.project!.getPackageIdFromAlias(dependency.package) ?? dependency.package;
 
-        if (!isSubscriberPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [dependency.package]);
         }
 
         packagesToInstall.push({
           Status: '',
           PackageName: dependency.package,
-          SubscriberPackageVersionId: packageVersionId,
+          SubscriberPackageVersionId: subscriberPackageVersionId,
         } as PackageToInstall);
       }
     }
@@ -203,26 +204,26 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
           continue;
         }
 
-        const packageId = this.project!.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
+        const package2Id = this.project!.getPackageIdFromAlias(devHubDependency.package) ?? devHubDependency.package;
 
-        if (!isPackage2Id(packageId)) {
+        if (!isPackage2Id(package2Id)) {
           throw messages.createError('error.invalidPackage2Id', [devHubDependency.package]);
         }
 
-        const packageVersionId = await SubscriberPackageVersion.resolveId(targetDevHubConnection, {
+        const subscriberPackageVersionId = await SubscriberPackageVersion.resolveId(targetDevHubConnection, {
           branch: flags.branch,
-          packageId,
+          packageId: package2Id,
           versionNumber: devHubDependency.versionNumber,
         });
 
-        if (!isSubscriberPackageVersionId(packageVersionId)) {
+        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
           throw messages.createError('error.invalidSubscriberPackageVersionId', [devHubDependency.package]);
         }
 
         packagesToInstall.push({
           PackageName: devHubDependency.package,
           Status: '',
-          SubscriberPackageVersionId: packageVersionId,
+          SubscriberPackageVersionId: subscriberPackageVersionId,
         } as PackageToInstall);
       }
 
@@ -257,14 +258,15 @@ export default class PackageDependenciesInstall extends SfCommand<PackageToInsta
         }
 
         const installationKeyPair = installationKey.split(':');
-        const packageVersionId = this.project!.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
+        const subscriberPackageVersionId =
+          this.project!.getPackageIdFromAlias(installationKeyPair[0]) ?? installationKeyPair[0];
         const packageInstallationKey = installationKeyPair[1];
 
-        if (!isSubscriberPackageVersionId(packageVersionId)) {
-          throw messages.createError('error.invalidSubscriberPackageVersionId', [packageVersionId]);
+        if (!isSubscriberPackageVersionId(subscriberPackageVersionId)) {
+          throw messages.createError('error.invalidSubscriberPackageVersionId', [subscriberPackageVersionId]);
         }
 
-        installationKeyMap.set(packageVersionId, packageInstallationKey);
+        installationKeyMap.set(subscriberPackageVersionId, packageInstallationKey);
       }
       this.spinner.stop();
     }
