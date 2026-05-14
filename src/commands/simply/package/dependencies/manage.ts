@@ -20,7 +20,11 @@ import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
 import { DependencyChange, PackageDependenciesManageResult } from '../../../../schemas/manage/dependencyChange.js';
 import { ParsedDependency } from '../../../../schemas/manage/parsedDependency.js';
-import { buildVersionService, VersionChoice } from '../../../../common/packageVersionService.js';
+import {
+  buildVersionService,
+  VersionChoice,
+  VersionServiceFilterIds,
+} from '../../../../common/packageVersionService.js';
 import { buildProjectService } from '../../../../common/sfdxProjectService.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -64,15 +68,23 @@ export default class PackageDependenciesManage extends SfCommand<PackageDependen
     const isInteractive = !flags['update-to-released'] && !flags['update-to-latest'];
     const connection = flags['target-dev-hub'].getConnection(flags['api-version']);
 
-    this.spinner.start(messages.getMessage('info.loadingDevHubData'));
-    const versionService = await buildVersionService(connection, this.project!);
-    this.spinner.stop();
-
     this.spinner.start(messages.getMessage('info.analyzingDependencies'));
     const projectService = await buildProjectService(this.project!);
     const dependenciesByDirectory = projectService.getDependenciesByDirectory();
     const dependenciesToIgnore = projectService.getDependenciesToIgnore();
     const branchesWithReleased = projectService.getBranchesWithReleasedVersions();
+    this.spinner.stop();
+
+    const allDependencies = [...dependenciesByDirectory.values()].flat();
+    const filterIds: VersionServiceFilterIds = {
+      package2Ids: allDependencies.flatMap((d) => (d.package2Id ? [d.package2Id] : [])),
+      subscriberVersionIds: allDependencies.flatMap((d) =>
+        d.subscriberPackageVersionId ? [d.subscriberPackageVersionId] : []
+      ),
+    };
+
+    this.spinner.start(messages.getMessage('info.loadingDevHubData'));
+    const versionService = await buildVersionService(connection, this.project!, filterIds);
     this.spinner.stop();
 
     const changesByDirectory = new Map<string, DependencyChange[]>();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { NamedPackageDir, SfError, SfProject } from '@salesforce/core';
+import { Connection, NamedPackageDir, SfError, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageVersionListResult } from '@salesforce/packaging';
 import { expect } from 'chai';
@@ -129,7 +129,11 @@ describe('simply package dependencies manage', () => {
   });
 
   it('should auto-select latest released version with --update-to-released', async () => {
-    $$.SANDBOX.stub(Package, 'list').resolves([]);
+    const autoFetchQueryStub = $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery');
+    autoFetchQueryStub
+      .onFirstCall()
+      .resolves({ records: [{ Package2Id: mockPackage2Id }], totalSize: 1, done: true } as never);
+    autoFetchQueryStub.onSecondCall().resolves({ records: [], totalSize: 0, done: true } as never);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
@@ -143,7 +147,11 @@ describe('simply package dependencies manage', () => {
   });
 
   it('should auto-select non-pinned latest with --update-to-latest', async () => {
-    $$.SANDBOX.stub(Package, 'list').resolves([]);
+    const autoFetchQueryStub = $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery');
+    autoFetchQueryStub
+      .onFirstCall()
+      .resolves({ records: [{ Package2Id: mockPackage2Id }], totalSize: 1, done: true } as never);
+    autoFetchQueryStub.onSecondCall().resolves({ records: [], totalSize: 0, done: true } as never);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
@@ -156,7 +164,11 @@ describe('simply package dependencies manage', () => {
   });
 
   it('should prompt user in interactive mode and apply selection', async () => {
-    $$.SANDBOX.stub(Package, 'list').resolves([]);
+    const autoFetchQueryStub = $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery');
+    autoFetchQueryStub
+      .onFirstCall()
+      .resolves({ records: [{ Package2Id: mockPackage2Id }], totalSize: 1, done: true } as never);
+    autoFetchQueryStub.onSecondCall().resolves({ records: [], totalSize: 0, done: true } as never);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
@@ -173,7 +185,11 @@ describe('simply package dependencies manage', () => {
   });
 
   it('should skip and mark unchanged when dev hub has no versions', async () => {
-    $$.SANDBOX.stub(Package, 'list').resolves([]);
+    const autoFetchQueryStub = $$.SANDBOX.stub(Connection.prototype, 'autoFetchQuery');
+    autoFetchQueryStub
+      .onFirstCall()
+      .resolves({ records: [{ Package2Id: mockPackage2Id }], totalSize: 1, done: true } as never);
+    autoFetchQueryStub.onSecondCall().resolves({ records: [], totalSize: 0, done: true } as never);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([]);
     $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);

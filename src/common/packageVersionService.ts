@@ -16,7 +16,7 @@
 
 import { Connection } from '@salesforce/core';
 import { SfProject } from '@salesforce/core';
-import { Package, PackageVersionListResult, PackagingSObjects } from '@salesforce/packaging';
+import { Package, Package2Fields, PackageVersionListResult, PackagingSObjects } from '@salesforce/packaging';
 import { ParsedDependency } from '../schemas/manage/parsedDependency.js';
 
 export type VersionChoice = {
@@ -48,16 +48,69 @@ export type PackageVersionService = {
   findVersionById(subscriberPackageVersionId: string): PackageVersionListResult | undefined;
 };
 
-export async function buildVersionService(connection: Connection, project: SfProject): Promise<PackageVersionService> {
-  const packages = await Package.list(connection);
-  const versions = await Package.listVersions(connection, project, {
-    concise: false,
-    createdLastDays: undefined as unknown as number,
-    modifiedLastDays: undefined as unknown as number,
-    orderBy: 'Package2Id, Branch, MajorVersion, MinorVersion, PatchVersion, BuildNumber',
-    isReleased: undefined,
-    verbose: true,
-  });
+export type VersionServiceFilterIds = {
+  package2Ids: string[];
+  subscriberVersionIds: string[];
+};
+
+export async function buildVersionService(
+  connection: Connection,
+  project: SfProject,
+  filterIds?: VersionServiceFilterIds
+): Promise<PackageVersionService> {
+  let packages: PackagingSObjects.Package2[];
+  let versions: PackageVersionListResult[];
+
+  if (filterIds) {
+    const package2IdSet = new Set<string>(filterIds.package2Ids);
+    if (filterIds.subscriberVersionIds.length > 0) {
+      const inClause = filterIds.subscriberVersionIds.map((id) => `'${id}'`).join(', ');
+      const result = await connection.autoFetchQuery(
+        `SELECT Package2Id FROM Package2Version WHERE SubscriberPackageVersionId IN (${inClause})`,
+        { tooling: true }
+      );
+      for (const rec of result.records as unknown as Array<{ Package2Id: string }>) {
+        package2IdSet.add(rec.Package2Id);
+      }
+    }
+
+    const targetPackage2Ids = [...package2IdSet];
+
+    if (targetPackage2Ids.length === 0) {
+      packages = [];
+      versions = [];
+    } else {
+      const apiVersion = connection.getApiVersion();
+      const fields = Package2Fields.filter((f) => apiVersion >= '59.0' || f !== 'AppAnalyticsEnabled').filter(
+        (f) => apiVersion >= '66.0' || f !== 'RecommendedVersionId'
+      );
+      const inClause = targetPackage2Ids.map((id) => `'${id}'`).join(', ');
+      const pkg2Result = await connection.autoFetchQuery(
+        `SELECT ${fields.join(', ')} FROM Package2 WHERE Id IN (${inClause}) ORDER BY NamespacePrefix, Name`,
+        { tooling: true }
+      );
+      packages = (pkg2Result?.records ?? []) as unknown as PackagingSObjects.Package2[];
+      versions = await Package.listVersions(connection, project, {
+        concise: false,
+        createdLastDays: undefined as unknown as number,
+        modifiedLastDays: undefined as unknown as number,
+        orderBy: 'Package2Id, Branch, MajorVersion, MinorVersion, PatchVersion, BuildNumber',
+        isReleased: undefined,
+        verbose: true,
+        packages: targetPackage2Ids,
+      });
+    }
+  } else {
+    packages = await Package.list(connection);
+    versions = await Package.listVersions(connection, project, {
+      concise: false,
+      createdLastDays: undefined as unknown as number,
+      modifiedLastDays: undefined as unknown as number,
+      orderBy: 'Package2Id, Branch, MajorVersion, MinorVersion, PatchVersion, BuildNumber',
+      isReleased: undefined,
+      verbose: true,
+    });
+  }
 
   const versionsBySubscriberId = new Map<string, PackageVersionListResult>();
   const packageAliasById = new Map<string, string>();
