@@ -1,3 +1,12 @@
+# [2.2.0](https://github.com/SimplySF/simply-package/compare/2.1.0...2.2.0) (2026-05-14)
+
+
+### Features
+
+* add manage command ([fc65d6a](https://github.com/SimplySF/simply-package/commit/fc65d6afd28b32ed80a1d8e28f584283b780dd83))
+
+
+
 # [2.1.0](https://github.com/SimplySF/simply-package/compare/1.11.0...2.1.0) (2026-05-14)
 
 

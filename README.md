@@ -57,6 +57,7 @@ sf plugins
 
 <!-- commands -->
 * [`sf simply package dependencies install`](#sf-simply-package-dependencies-install)
+* [`sf simply package dependencies manage`](#sf-simply-package-dependencies-manage)
 * [`sf simply package version cleanup`](#sf-simply-package-version-cleanup)
 
 ## `sf simply package dependencies install`
@@ -153,7 +154,66 @@ FLAG DESCRIPTIONS
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-package/blob/1.12.0/lib/commands/simply/package/dependencies/install.js)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/dependencies/install.js)_
+
+## `sf simply package dependencies manage`
+
+Manage package dependency versions for a Salesforce project.
+
+```
+USAGE
+  $ sf simply package dependencies manage -v <value> [--json] [--flags-dir <value>] [-b <value>] [--update-to-released |
+    --update-to-latest] [--api-version <value>]
+
+FLAGS
+  -b, --branch=<value>          Package branch to consider when evaluating version options.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+      --api-version=<value>     Override the api version used for api requests made by this command
+      --update-to-latest        Automatically set all dependencies to the latest non-pinned build.
+      --update-to-released      Automatically update all dependencies to the latest released version.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Manage package dependency versions for a Salesforce project.
+
+  Interactively updates package dependency versions in sfdx-project.json by querying the Dev Hub for available versions.
+  Supports interactive selection or automatic update to the latest released or latest build version.
+
+  Project-level configuration (in sfdx-project.json) is read from the following keys:
+
+  - plugins.simply.dependencies.ignore — array of Package2Ids or aliases to leave unchanged
+  - plugins.simply.package.brancheswithreleasedversions — array of branch names that contain released versions
+
+EXAMPLES
+  $ sf simply package dependencies manage --target-dev-hub myDevHub
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --branch my-feature-branch
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --update-to-released
+
+  $ sf simply package dependencies manage --target-dev-hub myDevHub --update-to-latest
+
+FLAG DESCRIPTIONS
+  -b, --branch=<value>  Package branch to consider when evaluating version options.
+
+    When specified, the command will include the latest build on this branch as a selectable option for each dependency.
+
+  --update-to-latest  Automatically set all dependencies to the latest non-pinned build.
+
+    When specified, all dependencies managed by the Dev Hub are automatically set to a non-pinned X.Y.Z.LATEST version
+    number without interactive prompts. Mutually exclusive with --update-to-released.
+
+  --update-to-released  Automatically update all dependencies to the latest released version.
+
+    When specified, all dependencies managed by the Dev Hub are automatically updated to the latest released package
+    version without interactive prompts. Mutually exclusive with --update-to-latest.
+```
+
+_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -194,5 +254,5 @@ FLAG DESCRIPTIONS
     The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
 ```
 
-_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-package/blob/1.12.0/lib/commands/simply/package/version/cleanup.js)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->
