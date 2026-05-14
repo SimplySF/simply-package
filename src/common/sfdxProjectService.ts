@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SfProject } from '@salesforce/core';
+import { SfProject, isNamedPackagingDirectory } from '@salesforce/core';
 import { DependencyChange } from '../schemas/manage/dependencyChange.js';
 import { ParsedDependency, parseDependency } from '../schemas/manage/parsedDependency.js';
 import { PACKAGE_PREFIX_SUBSCRIBER_PACKAGE_VERSION } from './packageUtils.js';
@@ -37,8 +37,7 @@ export async function buildProjectService(project: SfProject): Promise<SfdxProje
   }
 
   function resolveAlias(alias: string): string {
-    const aliases = getAliases();
-    return aliases[alias] ?? alias;
+    return project.getPackageIdFromAlias(alias) ?? alias;
   }
 
   function findAlias(id: string): string | undefined {
@@ -51,21 +50,17 @@ export async function buildProjectService(project: SfProject): Promise<SfdxProje
 
   function getDependenciesByDirectory(): Map<string, ParsedDependency[]> {
     const result = new Map<string, ParsedDependency[]>();
-    const packageDirectories = (contents.packageDirectories ?? []) as Array<Record<string, unknown>>;
 
-    for (const dir of packageDirectories) {
-      const path = dir['path'] as string;
-      const deps = (dir['dependencies'] ?? []) as Array<Record<string, string>>;
+    for (const dir of project.getPackageDirectories()) {
+      const deps = isNamedPackagingDirectory(dir) ? dir.dependencies ?? [] : [];
       const parsed: ParsedDependency[] = [];
 
       for (const dep of deps) {
-        const rawPackage = dep['package'] ?? '';
-        const versionNumber = dep['versionNumber'];
-        const resolvedPackage = resolveAlias(rawPackage);
-        parsed.push(parseDependency(resolvedPackage, versionNumber));
+        const resolvedPackage = project.getPackageIdFromAlias(dep.package) ?? dep.package;
+        parsed.push(parseDependency(resolvedPackage, dep.versionNumber));
       }
 
-      result.set(path, parsed);
+      result.set(dir.path, parsed);
     }
 
     return result;

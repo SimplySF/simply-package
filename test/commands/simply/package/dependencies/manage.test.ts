@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SfError, SfProject } from '@salesforce/core';
+import { NamedPackageDir, SfError, SfProject } from '@salesforce/core';
 import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
 import { Package, PackageVersionListResult } from '@salesforce/packaging';
 import { expect } from 'chai';
@@ -65,7 +65,20 @@ const mockVersion101: PackageVersionListResult = {
   IsReleased: false,
 };
 
-// Minimal sfdx-project.json contents where force-app depends on mockVersion100
+// Typed package directory mock. Must have a `package` property so isNamedPackagingDirectory returns true.
+const mockPackageDirectories = [
+  {
+    path: 'force-app',
+    name: 'force-app',
+    fullPath: '/test/force-app',
+    default: true,
+    package: 'MyProject',
+    versionNumber: '1.0.0.NEXT',
+    dependencies: [{ package: mockVersion100.SubscriberPackageVersionId }],
+  },
+] as unknown as NamedPackageDir[];
+
+// Minimal sfdx-project.json contents — only needed for findAlias and applyChanges.
 const mockProjectContents = {
   packageDirectories: [
     {
@@ -118,6 +131,7 @@ describe('simply package dependencies manage', () => {
   it('should auto-select latest released version with --update-to-released', async () => {
     $$.SANDBOX.stub(Package, 'list').resolves([]);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
 
     const results = await PackageDependenciesManage.run(['--target-dev-hub', testOrg.username, '--update-to-released']);
@@ -131,6 +145,7 @@ describe('simply package dependencies manage', () => {
   it('should auto-select non-pinned latest with --update-to-latest', async () => {
     $$.SANDBOX.stub(Package, 'list').resolves([]);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
 
     const results = await PackageDependenciesManage.run(['--target-dev-hub', testOrg.username, '--update-to-latest']);
@@ -143,6 +158,7 @@ describe('simply package dependencies manage', () => {
   it('should prompt user in interactive mode and apply selection', async () => {
     $$.SANDBOX.stub(Package, 'list').resolves([]);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([mockVersion100, mockVersion101]);
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
     // Simulate user picking the 1.0.1-1 version (stub prototype method to avoid ESM restriction)
     $$.SANDBOX.stub(PackageDependenciesManage.prototype, 'promptForVersion' as never).resolves(
@@ -159,6 +175,7 @@ describe('simply package dependencies manage', () => {
   it('should skip and mark unchanged when dev hub has no versions', async () => {
     $$.SANDBOX.stub(Package, 'list').resolves([]);
     $$.SANDBOX.stub(Package, 'listVersions').resolves([]);
+    $$.SANDBOX.stub(SfProject.prototype, 'getPackageDirectories').returns(mockPackageDirectories);
     $$.SANDBOX.stub(SfProject.prototype, 'retrieveSfProjectJson').resolves(buildMockProjectJson() as never);
 
     const results = await PackageDependenciesManage.run(['--target-dev-hub', testOrg.username, '--update-to-released']);
