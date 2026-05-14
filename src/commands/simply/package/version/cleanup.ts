@@ -80,9 +80,9 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
     }
 
     const matcherSplit = matcher.split('.');
-    const majorMatcher = matcherSplit.at(0);
-    const minorMatcher = matcherSplit.at(1);
-    const patchMatcher = matcherSplit.at(2);
+    const majorMatcher = matcherSplit[0];
+    const minorMatcher = matcherSplit[1];
+    const patchMatcher = matcherSplit[2];
 
     log.info(`Major Matcher ${majorMatcher} Minor Matcher ${minorMatcher} Patch Matcher ${patchMatcher}`);
 
@@ -98,7 +98,7 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
 
     this.spinner.start('Analyzing which package versions to delete...');
 
-    const packageVersions = await Package.listVersions(connection, this.project!, packageVersionListOptions);
+    const packageVersions = await Package.listVersions(connection, this.project, packageVersionListOptions);
 
     const targetVersions = packageVersions.filter(
       (packageVersion) =>
@@ -113,7 +113,7 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
     targetVersions.forEach((targetVersion) => {
       const packageVersionOptions: PackageVersionOptions = {
         connection,
-        project: this.project!,
+        project: this.project,
         idOrAlias: targetVersion.SubscriberPackageVersionId,
       };
 
@@ -155,10 +155,13 @@ export default class PackageVersionCleanup extends SfCommand<PackageVersionClean
 
   private displayDeletionResults(packageCleanupResults: PackageVersionCleanupResult[]): void {
     this.styledHeader('Package Version Cleanup Results');
-    this.table(packageCleanupResults, {
-      SubscriberPackageVersionId: { header: 'PACKAGE VERSION ID' },
-      Success: { header: 'SUCCESS' },
-      Error: { header: 'ERROR' },
+    this.table({
+      data: packageCleanupResults,
+      columns: [
+        { key: 'SubscriberPackageVersionId', name: 'PACKAGE VERSION ID' },
+        { key: 'Success', name: 'SUCCESS' },
+        { key: 'Error', name: 'ERROR' },
+      ],
     });
   }
 }

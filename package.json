@@ -1,32 +1,31 @@
 {
   "name": "@simplysf/simply-package",
   "description": "Utilities for working with packages",
-  "version": "1.11.0",
+  "version": "2.0.0",
   "author": "@ClayChipps",
   "bugs": "https://github.com/SimplySF/simply-package/issues",
   "dependencies": {
-    "@oclif/core": "^4",
-    "@salesforce/core": "^8.0.1",
-    "@salesforce/kit": "^3.1.6",
-    "@salesforce/packaging": "^4.1.1",
-    "@salesforce/schemas": "^1.9.0",
-    "@salesforce/sf-plugins-core": "^11.1.1",
-    "@salesforce/ts-types": "^2.0.10"
+    "@oclif/core": "^4.11.2",
+    "@salesforce/core": "^8.30.0",
+    "@salesforce/kit": "^3.2.6",
+    "@salesforce/packaging": "^4.22.16",
+    "@salesforce/sf-plugins-core": "^12.2.16",
+    "@salesforce/ts-types": "^2.0.12",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.2.3",
-    "@salesforce/cli-plugins-testkit": "^5.3.17",
-    "@salesforce/plugin-command-reference": "^3.1.5",
-    "@salesforce/ts-sinon": "^1.4.19",
-    "@simplysf/dev-scripts": "^3.2.0",
-    "eslint-plugin-sf-plugin": "^1.18.8",
-    "oclif": "^4.10.11",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "@oclif/plugin-command-snapshot": "^5.3.19",
+    "@salesforce/cli-plugins-testkit": "^5.3.57",
+    "@salesforce/plugin-command-reference": "^3.1.99",
+    "@salesforce/ts-sinon": "^1.4.34",
+    "@simplysf/dev-scripts": "^11.1.1",
+    "eslint-plugin-sf-plugin": "^1.20.33",
+    "oclif": "^4.23.0",
+    "ts-node": "^10.9.2"
   },
   "config": {},
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "files": [
     "/lib",
@@ -45,7 +44,7 @@
     "sf-plugin",
     "sf"
   ],
-  "license": "BSD-3-Clause",
+  "license": "Apache-2.0",
   "oclif": {
     "additionalVersionFlags": [
       "-v"
@@ -90,6 +89,7 @@
     "clean-all": "sf-clean all",
     "compile": "wireit",
     "docs": "sf-docs",
+    "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
@@ -211,7 +211,7 @@
       "output": []
     },
     "link-check": {
-      "command": "node -e \"process.exit(process.env.CI ? 0 : 1)\" || linkinator \"**/*.md\" --skip \"CHANGELOG.md|node_modules|test/|confluence.internal.salesforce.com|my.salesforce.com|%s\" --markdown --retry --directory-listing --verbosity error",
+      "command": "node -e \"process.exit(process.env.CI ? 0 : 1)\" || linkinator \"**/*.md\" --skip \"CHANGELOG.md|node_modules|test/|confluence.internal.salesforce.com|my.salesforce.com|localhost|%s\" --markdown --retry --directory-listing --verbosity error",
       "files": [
         "./*.md",
         "./!(CHANGELOG).md",

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-
-import { PackageDir } from '@salesforce/schemas';
+import { NamedPackageDir } from '@salesforce/core';
 import { InstalledPackages, PackagingSObjects } from '@salesforce/packaging';
-import { BasePackageDirWithDependencies } from '../schemas/packageDirs.js';
+import { BasePackageDirWithDependencies } from '../schemas/sfdx-project/packageDirs.js';
 
 type PackageInstallRequest = PackagingSObjects.PackageInstallRequest;
 
@@ -60,6 +59,6 @@ export const reducePackageInstallRequestErrors = (request: PackageInstallRequest
 };
 
 export const isDependenciesPackagingDirectory = (
-  packageDir: PackageDir
-): packageDir is BasePackageDirWithDependencies =>
+  packageDir: NamedPackageDir
+): packageDir is NamedPackageDir & BasePackageDirWithDependencies =>
   'dependencies' in packageDir && Array.isArray(packageDir?.dependencies);
