@@ -153,7 +153,7 @@ FLAG DESCRIPTIONS
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 ```
 
-_See code: [src/commands/simply/package/dependencies/install.ts](https://github.com/SimplySF/simply-package/blob/1.11.0/src/commands/simply/package/dependencies/install.ts)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-package/blob/1.12.0/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package version cleanup`
 
@@ -194,5 +194,5 @@ FLAG DESCRIPTIONS
     The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
 ```
 
-_See code: [src/commands/simply/package/version/cleanup.ts](https://github.com/SimplySF/simply-package/blob/1.11.0/src/commands/simply/package/version/cleanup.ts)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-package/blob/1.12.0/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->

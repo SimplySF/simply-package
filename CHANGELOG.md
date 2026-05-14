@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/SimplySF/simply-package/compare/1.11.0...2.1.0) (2026-05-14)
+
+
+### Features
+
+* update for node v22 ([b8290d1](https://github.com/SimplySF/simply-package/commit/b8290d1f8e320bfebc50c7fc28c2145aca08a448))
+
+
+
 # [1.11.0](https://github.com/SimplySF/simply-package/compare/1.10.0...1.11.0) (2024-12-28)
 
 
