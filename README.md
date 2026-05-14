@@ -154,7 +154,7 @@ FLAG DESCRIPTIONS
     from by entering the branch build name. If not specified, the builds from NULL branch will be considered.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/dependencies/install.js)_
+_See code: [lib/commands/simply/package/dependencies/install.js](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/dependencies/install.js)_
 
 ## `sf simply package dependencies manage`
 
@@ -213,7 +213,7 @@ FLAG DESCRIPTIONS
     version without interactive prompts. Mutually exclusive with --update-to-latest.
 ```
 
-_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/dependencies/manage.js)_
+_See code: [lib/commands/simply/package/dependencies/manage.js](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/dependencies/manage.js)_
 
 ## `sf simply package version cleanup`
 
@@ -254,5 +254,5 @@ FLAG DESCRIPTIONS
     The MAJOR.MINOR.PATCH matcher that should be used to find package versions to delete.
 ```
 
-_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-package/blob/2.2.0/lib/commands/simply/package/version/cleanup.js)_
+_See code: [lib/commands/simply/package/version/cleanup.js](https://github.com/SimplySF/simply-package/blob/2.3.0/lib/commands/simply/package/version/cleanup.js)_
 <!-- commandsstop -->

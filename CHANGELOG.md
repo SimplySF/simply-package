@@ -1,3 +1,12 @@
+# [2.3.0](https://github.com/SimplySF/simply-package/compare/2.2.0...2.3.0) (2026-05-14)
+
+
+### Features
+
+* filter packages returned from devhub ([bd7790f](https://github.com/SimplySF/simply-package/commit/bd7790f000b6da816981b0780922f21653ed0388))
+
+
+
 # [2.2.0](https://github.com/SimplySF/simply-package/compare/2.1.0...2.2.0) (2026-05-14)
 
 
