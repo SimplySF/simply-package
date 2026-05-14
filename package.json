@@ -10,6 +10,7 @@
     "@salesforce/kit": "^3.2.6",
     "@salesforce/packaging": "^4.22.16",
     "@salesforce/sf-plugins-core": "^12.2.16",
+    "@inquirer/prompts": "^7.10.1",
     "@salesforce/ts-types": "^2.0.12",
     "zod": "^4.1.12"
   },

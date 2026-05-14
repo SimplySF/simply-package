@@ -25,6 +25,14 @@
   },
   {
     "alias": [],
+    "command": "simply:package:dependencies:manage",
+    "flagAliases": [],
+    "flagChars": ["b", "v"],
+    "flags": ["api-version", "branch", "flags-dir", "json", "target-dev-hub", "update-to-latest", "update-to-released"],
+    "plugin": "@simplysf/simply-package"
+  },
+  {
+    "alias": [],
     "command": "simply:package:version:cleanup",
     "flagAliases": [],
     "flagChars": ["p", "s", "v"],
